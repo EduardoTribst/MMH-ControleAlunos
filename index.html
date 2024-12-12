@@ -7,6 +7,18 @@
 </head>
 <body>
     <h1>Teste</h1>
-    <button onclick="location.replace('http://127.0.0.1:5500/ListagemAlunos.html')">Mudar</button>
+    <button onclick="mudaPag">Mudar</button>
+
+    <script>
+        function mudaPag(){
+            try{
+               location.replace('http://127.0.0.1:5500/ListagemAlunos.html') 
+            }
+            catch{
+                alert("nao funciona")
+            }
+            
+        }
+    </script>
 </body>
 </html>
