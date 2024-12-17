@@ -4,11 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Teste</h1>
-    <button onclick="location.replace('https://eduardotribst.github.io/MMH-ControleAlunos/inicio.html')">Mudar</button>
 
+    <img src="#" alt="LOGO-MMH">
+    
+    <div id="blocoLogin">
+        <h1>Login</h1>
+        <label for="input">Usuário</label>
+        <input type="text">
+        
+        <label for="input">Senha</label>
+        <input type="password">
+        
 
+        <button onclick="mudaPag()">Entrar</button> 
+    </div>
+    
 </body>
+
+
+<script>
+    function mudaPag(){
+        location.replace('https://eduardotribst.github.io/MMH-ControleAlunos/ListagemAlunos.html')
+    }
+</script>
+
 </html>
