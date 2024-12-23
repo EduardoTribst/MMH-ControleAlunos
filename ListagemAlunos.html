@@ -4,15 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="listagem.css">
 </head>
 <body>
-    <h1>Listagem</h1>
+    <h2 id="mensagem"></h2>
 
-    <button onclick="mudaPag()">+</button>
+    <div id="radios">
+        <label>Alunos</label>
+        <input type="radio" checked name="tipoDeDado" onchange="MudarTextoBotao()" value="alu">
+        <label>Voluntários</label>
+        <input type="radio" name="tipoDeDado" onclick="MudarTextoBotao()" value="vol">
+    </div>
+    
+
+    <table id="tabela"></table>
+
+    <button onclick="mudaPag()" id="botao">Presença alunos</button>
+
+
+
+
     <script>
+        localStorage.setItem("AlunoOuVol", "0")
+
+
         function mudaPag(){
             location.replace('https://eduardotribst.github.io/MMH-ControleAlunos/Selecionar.html')
         }
+
+        function MudarTextoBotao(){
+            let radios = document.getElementsByName("tipoDeDado");
+            let valor = "";
+            for (const radio of radios) {
+                if (radio.checked) {
+                    valor = radio.value;
+                    break;
+                }
+            }
+        
+            if (valor === "vol"){
+                document.getElementById("botao").innerHTML = 'Presença voluntários'
+                localStorage.setItem("AlunoOuVol", "1")
+                preencheTituloTabela()
+            }
+            else{
+                document.getElementById("botao").innerHTML = 'Presença alunos'
+                localStorage.setItem("AlunoOuVol", "0")
+                preencheTituloTabela()
+            }
+
+
+        }
+
+        function preencheTituloTabela(){
+            let tipo = localStorage.getItem("AlunoOuVol")
+            if (tipo === "0"){
+                let texto = `<tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Presença parcial</th>
+                </tr>`
+
+                document.getElementById("tabela").innerHTML = texto
+            }
+            else{
+                let texto = `<tr>
+                    <th>Nome</th>
+                    <th>Horas voluntariadas</th>
+                </tr>`
+
+                document.getElementById("tabela").innerHTML = texto
+            }
+        }
+
+        preencheTituloTabela()
     </script>
     
 </body>

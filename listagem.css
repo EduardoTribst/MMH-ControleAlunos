@@ -1,0 +1,56 @@
+:root {
+    --primary-color: #00CD91; 
+    --secondary-color: #1D2255;  
+    --terceary-color: #A7EED9; 
+}
+
+body{
+    background-color: var(--primary-color);
+}
+
+h1 {
+    margin: 0;
+    margin-bottom: 20px; /* Espaçamento abaixo do título */
+    font-size: 24px;
+}
+
+#radios{
+   margin: auto;
+   width: 50%;
+   text-align: center;
+   margin-bottom: 20px;
+}
+table {
+    
+    border-collapse: collapse;
+    width: 60%;
+    text-align: center;
+    border: 1px solid var(--secondary-color);
+    margin-top: 0px;
+    margin: auto;
+}
+
+table th, table td {
+    border: 1px solid var(--secondary-color);
+    padding: 8px;
+}
+
+table th {
+    background-color: var(--terceary-color);
+}
+
+button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
