@@ -20,7 +20,7 @@
         let gapiInited = false;
         let gisInited = false;
 
-        // Load the API client and auth2 library
+        // Load the API client and auth2 library together
         function gapiLoaded() {
             gapi.client.init({
                 apiKey: API_KEY,
@@ -28,14 +28,11 @@
                 scope: SCOPES,
             }).then(() => {
                 gapiInited = true;
+                gisInited = true;
                 maybeEnableButtons();
+            }).catch((error) => {
+                console.error('Error initializing GAPI client:', error);
             });
-        }
-
-        // Load the auth2 library
-        function gisLoaded() {
-            gisInited = true;
-            maybeEnableButtons();
         }
 
         // Enable the buttons if both libraries are loaded
@@ -48,10 +45,10 @@
         // Authorize the user and handle authentication
         function handleAuthClick(event) {
             gapi.auth2.getAuthInstance().signIn().then(() => {
-                alert("foi")
-                console.log("ofi")
                 document.getElementById('authorize_button').style.display = 'none';
                 document.getElementById('write_button').style.display = 'inline';
+            }).catch((error) => {
+                console.error('Error during authentication:', error);
             });
         }
 
@@ -80,12 +77,12 @@
             });
         }
 
+        // Listen for user actions
         document.getElementById('authorize_button').addEventListener('click', handleAuthClick);
         document.getElementById('write_button').addEventListener('click', writeData);
 
-        // Load the API client and auth2 libraries
+        // Load the client and auth2 libraries
         gapi.load('client:auth2', gapiLoaded);
-        gapi.load('auth2', gisLoaded);
     </script>
 </body>
 </html>
