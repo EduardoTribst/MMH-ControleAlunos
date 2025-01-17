@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Write Data</title>
+    <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+    <h1>Write Data to Google Sheets</h1>
+    <button id="authorize_button">Authorize</button>
+    <button id="write_button" style="display:none;">Write Data</button>
+
+    <script>
+        const CLIENT_ID = '995672220902-jdd82vmeut7nri3aqppn49d8qt3sleai.apps.googleusercontent.com'; // Replace with your OAuth Client ID
+        const API_KEY = 'AIzaSyCWixo1AXpz1ZZSfDCv1gBeYd4rmfXlAjk'; // Replace with your API Key
+        const SHEET_ID = '1a5MrGTrjiQduXiO45JxXLP4pG9C7g0QJ8pXWCECmoW0'; // Replace with your Sheet ID
+        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+
+        let gapiInited = false;
+        let gisInited = false;
+
+        // Load the API client and auth2 library
+        function gapiLoaded() {
+            gapi.client.init({
+                apiKey: API_KEY,
+                clientId: CLIENT_ID,
+                scope: SCOPES,
+            }).then(() => {
+                gapiInited = true;
+                maybeEnableButtons();
+            });
+        }
+
+        // Load the auth2 library
+        function gisLoaded() {
+            gisInited = true;
+            maybeEnableButtons();
+        }
+
+        // Enable the buttons if both libraries are loaded
+        function maybeEnableButtons() {
+            if (gapiInited && gisInited) {
+                document.getElementById('authorize_button').style.display = 'inline';
+            }
+        }
+
+        // Authorize the user and handle authentication
+        function handleAuthClick(event) {
+            gapi.auth2.getAuthInstance().signIn().then(() => {
+                document.getElementById('authorize_button').style.display = 'none';
+                document.getElementById('write_button').style.display = 'inline';
+            });
+        }
+
+        // Write data to the Google Sheet
+        function writeData() {
+            const range = 'Sheet1!A1'; // Specify the cell where you want to start writing
+            const values = [
+                ["Hello", "World"], // Data to write
+            ];
+
+            const body = {
+                values: values
+            };
+
+            const request = gapi.client.sheets.spreadsheets.values.update({
+                spreadsheetId: SHEET_ID,
+                range: range,
+                valueInputOption: "RAW", // Use "RAW" to write data as it is, or "USER_ENTERED" for automatic formatting
+                resource: body
+            });
+
+            request.then((response) => {
+                console.log('Data written successfully', response);
+            }, (error) => {
+                console.error('Error writing data: ', error);
+            });
+        }
+
+        document.getElementById('authorize_button').addEventListener('click', handleAuthClick);
+        document.getElementById('write_button').addEventListener('click', writeData);
+
+        // Load the API client and auth2 libraries
+        gapi.load('client:auth2', gapiLoaded);
+        gapi.load('auth2', gisLoaded);
+    </script>
+</body>
+</html>
