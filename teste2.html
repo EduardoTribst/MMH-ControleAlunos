@@ -48,6 +48,8 @@
         // Authorize the user and handle authentication
         function handleAuthClick(event) {
             gapi.auth2.getAuthInstance().signIn().then(() => {
+                alert("foi")
+                console.log("ofi")
                 document.getElementById('authorize_button').style.display = 'none';
                 document.getElementById('write_button').style.display = 'inline';
             });
