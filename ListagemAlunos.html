@@ -51,7 +51,7 @@
             else{
                 document.getElementById("botao").innerHTML = 'Presença alunos'
                 localStorage.setItem("AlunoOuVol", "0")
-                preencheTituloTabela()
+                preencheTabelaAlunos()
             }
 
 
@@ -78,7 +78,71 @@
             }
         }
 
-        preencheTituloTabela()
+        window.onload = function() {
+            fetch('dados.csv') // Load the CSV file from the same folder
+                .then(response => response.text()) // Parse the file content as text
+                .then(csvData => {
+                    const rows = csvData.split('\n');
+                    const table = document.getElementById('tabela');
+                    table.innerHTML = ''; // Clear previous table data
+
+                    // Create table headers from first row (CSV columns)
+                    const headers = rows[0].split(',');
+                    let headerRow = '<tr>';
+                    headers.forEach(header => {
+                        headerRow += `<th>${header.trim()}</th>`;
+                    });
+                    headerRow += '</tr>';
+                    table.innerHTML += headerRow;
+
+                    // Create table rows for the CSV data
+                    for (let i = 1; i < rows.length; i++) {
+                        const row = rows[i].split(',');
+                        let tableRow = '<tr>';
+                        row.forEach(cell => {
+                            tableRow += `<td>${cell.trim()}</td>`;
+                        });
+                        tableRow += '</tr>';
+                        table.innerHTML += tableRow;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error reading the file:", error);
+                });
+        };
+
+        function preencheTabelaAlunos() {
+            fetch('dados.csv') // Load the CSV file from the same folder
+                .then(response => response.text()) // Parse the file content as text
+                .then(csvData => {
+                    const rows = csvData.split('\n');
+                    const table = document.getElementById('tabela');
+                    table.innerHTML = ''; // Clear previous table data
+
+                    // Create table headers from first row (CSV columns)
+                    const headers = rows[0].split(',');
+                    let headerRow = '<tr>';
+                    headers.forEach(header => {
+                        headerRow += `<th>${header.trim()}</th>`;
+                    });
+                    headerRow += '</tr>';
+                    table.innerHTML += headerRow;
+
+                    // Create table rows for the CSV data
+                    for (let i = 1; i < rows.length; i++) {
+                        const row = rows[i].split(',');
+                        let tableRow = '<tr>';
+                        row.forEach(cell => {
+                            tableRow += `<td>${cell.trim()}</td>`;
+                        });
+                        tableRow += '</tr>';
+                        table.innerHTML += tableRow;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error reading the file:", error);
+                });
+        }
     </script>
     
 </body>

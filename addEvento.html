@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <h1>Criar Evento</h1>
+
+        <label>Nome: </label>
+        <input type="text" id="NomeEvento">
+        <br>
+        <label>Recorrente: </label>
+        <br>
+
+        <input onclick="verTipoEMUdar()" type="radio" name="recorrente" id="RadioSim">Sim
+        <br>
+
+        <input onclick="alert('cliclou')" type="radio" name="recorrente" id="RadioNao">Não
+
+        <label style="display: none;" id="LabelInicio" >Início</label>
+        <input style="display: none;" type="time" id="inicio" >
+        <label style="display: none;" id="LabelFim" >Fim</label>
+        <input style="display: none;" type="time" id="fim" >
+        <label style="display: none;" id="LabelPrimDia">Primeiro Dia</label>
+        <input style="display: none;" type="date" id="PrimDia">
+        <label style="display: none;" id="LabelUltDia">Último Dia</label>
+        <input style="display: none;" type="date" id="UltDia">
+        <label style="display: none;" id="LabelDia">Dia</label>
+        <input style="display: none;" type="date" id="Dia">
+        <br>
+        <label style="display: none;" id="LabDom">Dom</label><input style="display: none;" type="checkbox" id="Dom">
+        <label style="display: none;" id="LabSeg">Seg</label><input style="display: none;" type="checkbox" id="Seg">
+        <label style="display: none;" id="LabTer">Ter</label><input style="display: none;" type="checkbox" id="Ter">
+        <label style="display: none;" id="LabQua">Qua</label><input style="display: none;" type="checkbox" id="Qua">
+        <label style="display: none;" id="LabQui">Qui</label><input style="display: none;" type="checkbox" id="Qui">
+        <label style="display: none;" id="LabSex">Sex</label><input style="display: none;" type="checkbox" id="Sex">
+        <label style="display: none;" id="LabSab">Sab</label><input style="display: none;" type="checkbox" id="Sab">
+        
+        
+        
+        
+        
+        
+        
+    </form>
+
+    <script>
+        function verTipoEMUdar(){
+            if (document.getElementById("RadioSim").checked){
+                document.getElementById('LabelInicio').style.display = 'block';
+                document.getElementById('LabelFim').style.display = 'block';
+                document.getElementById('inicio').style.display = 'block';
+                document.getElementById('fim').style.display = 'block';
+                document.getElementById('Dom').style.display = 'block';
+                document.getElementById('Seg').style.display = 'block';
+                document.getElementById('Ter').style.display = 'block';
+                document.getElementById('Qua').style.display = 'block';
+                document.getElementById('Qui').style.display = 'block';
+                document.getElementById('Sex').style.display = 'block';
+                document.getElementById('Sab').style.display = 'block';
+                document.getElementById('LabDom').style.display = 'block';
+                document.getElementById('LabSeg').style.display = 'block';
+                document.getElementById('LabTer').style.display = 'block';
+                document.getElementById('LabQua').style.display = 'block';
+                document.getElementById('LabQui').style.display = 'block';
+                document.getElementById('LabSex').style.display = 'block';
+                document.getElementById('LabSab').style.display = 'block';
+                
+                
+            }
+        }
+    </script>
+</body>
+</html>

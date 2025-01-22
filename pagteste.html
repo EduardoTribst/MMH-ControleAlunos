@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="Eventos"></div>
+    <button id="botaoEvento" onclick="mudaPag()">Cadastrar Evento</button>
+
+    <script>
+        function mudaPag(){
+            location.replace("'https://eduardotribst.github.io/MMH-ControleAlunos/ListagemAlunos.html'")
+        }
+
+        function preencheTabelaAlunos() {
+            fetch('eventos.csv') // Load the CSV file from the same folder
+                .then(response => response.text()) // Parse the file content as text
+                .then(csvData => {
+                    const rows = csvData.split('\n');
+
+
+                    
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = rows[i].split(',');
+                        let tableRow = '<div>';
+                        row.forEach(cell => {
+                            tableRow += `<h1>${cell.trim()}</h1>`;
+                        });
+                        tableRow += '</div>';
+                        document.getElementById("Eventos").innerHTML += tableRow;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error reading the file:", error);
+                });
+        }
+
+        preencheTabelaAlunos()
+    </script>
+
+</body>
+
+</html>
