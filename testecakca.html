@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        fetch("https://api.netlify.com/api/v1/sites", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer nfp_s4g1HUpNAY3bJbxLvtBttVvF3PEtkwsX4f19"
+            }
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error("Error:", error));
+
+    </script>
+</body>
+</html>
