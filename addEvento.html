@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form onsubmit="verificar(event)">
         <h1>Criar Evento</h1>
 
         <label>Nome: </label>
@@ -18,32 +18,43 @@
         <input onclick="verTipoEMUdar()" type="radio" name="recorrente" id="RadioSim">Sim
         <br>
 
-        <input onclick="alert('cliclou')" type="radio" name="recorrente" id="RadioNao">Não
+        <input onclick="verTipoEMUdar()" type="radio" name="recorrente" id="RadioNao">Não
 
         <label style="display: none;" id="LabelInicio" >Início</label>
         <input style="display: none;" type="time" id="inicio" >
+
         <label style="display: none;" id="LabelFim" >Fim</label>
-        <input style="display: none;" type="time" id="fim" >
+        <input style="display: none;" type="time" id="fim">
+
         <label style="display: none;" id="LabelPrimDia">Primeiro Dia</label>
         <input style="display: none;" type="date" id="PrimDia">
+
         <label style="display: none;" id="LabelUltDia">Último Dia</label>
         <input style="display: none;" type="date" id="UltDia">
+
         <label style="display: none;" id="LabelDia">Dia</label>
         <input style="display: none;" type="date" id="Dia">
         <br>
-        <label style="display: none;" id="LabDom">Dom</label><input style="display: none;" type="checkbox" id="Dom">
-        <label style="display: none;" id="LabSeg">Seg</label><input style="display: none;" type="checkbox" id="Seg">
-        <label style="display: none;" id="LabTer">Ter</label><input style="display: none;" type="checkbox" id="Ter">
-        <label style="display: none;" id="LabQua">Qua</label><input style="display: none;" type="checkbox" id="Qua">
-        <label style="display: none;" id="LabQui">Qui</label><input style="display: none;" type="checkbox" id="Qui">
-        <label style="display: none;" id="LabSex">Sex</label><input style="display: none;" type="checkbox" id="Sex">
-        <label style="display: none;" id="LabSab">Sab</label><input style="display: none;" type="checkbox" id="Sab">
+        <div style="display: flex;">
+            <label style="display: none;" id="LabDom">Dom</label><input style="display: none;" type="checkbox" id="Dom">
+            <label style="display: none;" id="LabSeg">Seg</label><input style="display: none;" type="checkbox" id="Seg">
+            <label style="display: none;" id="LabTer">Ter</label><input style="display: none;" type="checkbox" id="Ter">
+            <label style="display: none;" id="LabQua">Qua</label><input style="display: none;" type="checkbox" id="Qua">
+            <label style="display: none;" id="LabQui">Qui</label><input style="display: none;" type="checkbox" id="Qui">
+            <label style="display: none;" id="LabSex">Sex</label><input style="display: none;" type="checkbox" id="Sex">
+            <label style="display: none;" id="LabSab">Sab</label><input style="display: none;" type="checkbox" id="Sab">
+        </div>
+
+        <div style="display: flex;">
+            <label style="display: none;" id="LabelAlunos">Alunos</label>
+            <input type="checkbox" style="display: none;" id="alunosCbx">
+            <label style="display: none;" id="LabelVoluntarios">Voluntarios</label>
+            <input type="checkbox" style="display: none;" id="voluntariosCbx">
+        </div>
         
-        
-        
-        
-        
-        
+
+        <button style="display:none;" type="submit" id="submitButton">Criar</button>
+          
         
     </form>
 
@@ -54,6 +65,10 @@
                 document.getElementById('LabelFim').style.display = 'block';
                 document.getElementById('inicio').style.display = 'block';
                 document.getElementById('fim').style.display = 'block';
+                document.getElementById('LabelPrimDia').style.display = 'block';
+                document.getElementById('LabelUltDia').style.display = 'block';
+                document.getElementById('PrimDia').style.display = 'block';
+                document.getElementById('UltDia').style.display = 'block';
                 document.getElementById('Dom').style.display = 'block';
                 document.getElementById('Seg').style.display = 'block';
                 document.getElementById('Ter').style.display = 'block';
@@ -68,9 +83,140 @@
                 document.getElementById('LabQui').style.display = 'block';
                 document.getElementById('LabSex').style.display = 'block';
                 document.getElementById('LabSab').style.display = 'block';
-                
-                
+                document.getElementById('LabelAlunos').style.display = 'block';
+                document.getElementById('LabelVoluntarios').style.display = 'block';
+                document.getElementById('alunosCbx').style.display = 'block';
+                document.getElementById('voluntariosCbx').style.display = 'block';
+                document.getElementById('submitButton').style.display = 'block';
+
+
+                document.getElementById('LabelDia').style.display = 'none';
+                document.getElementById('Dia').style.display = 'none';
+
             }
+            else if (document.getElementById("RadioNao").checked){
+                document.getElementById('LabelInicio').style.display = 'block';
+                document.getElementById('LabelFim').style.display = 'block';
+                document.getElementById('inicio').style.display = 'block';
+                document.getElementById('fim').style.display = 'block';
+                document.getElementById('LabelDia').style.display = 'block';
+                document.getElementById('Dia').style.display = 'block';
+                document.getElementById('LabelAlunos').style.display = 'block';
+                document.getElementById('LabelVoluntarios').style.display = 'block';
+                document.getElementById('alunosCbx').style.display = 'block';
+                document.getElementById('voluntariosCbx').style.display = 'block';
+                document.getElementById('submitButton').style.display = 'block';
+
+
+                document.getElementById('LabelPrimDia').style.display = 'none';
+                document.getElementById('LabelUltDia').style.display = 'none';
+                document.getElementById('PrimDia').style.display = 'none';
+                document.getElementById('UltDia').style.display = 'none';
+                document.getElementById('Dom').style.display = 'none';
+                document.getElementById('Seg').style.display = 'none';
+                document.getElementById('Ter').style.display = 'none';
+                document.getElementById('Qua').style.display = 'none';
+                document.getElementById('Qui').style.display = 'none';
+                document.getElementById('Sex').style.display = 'none';
+                document.getElementById('Sab').style.display = 'none';
+                document.getElementById('LabDom').style.display = 'none';
+                document.getElementById('LabSeg').style.display = 'none';
+                document.getElementById('LabTer').style.display = 'none';
+                document.getElementById('LabQua').style.display = 'none';
+                document.getElementById('LabQui').style.display = 'none';
+                document.getElementById('LabSex').style.display = 'none';
+                document.getElementById('LabSab').style.display = 'none';
+
+            }
+        }
+        function verificar(event){
+            event.preventDefault()
+            if (document.getElementById("RadioSim").checked){
+                
+                let nome = document.getElementById("NomeEvento").value
+                let inicio = document.getElementById("inicio").value
+                let fim = document.getElementById("fim").value
+                let primDia = document.getElementById("PrimDia").value
+                let ultDia = document.getElementById("UltDia").value
+                let dom = document.getElementById("Dom").checked
+                let seg = document.getElementById("Seg").checked
+                let ter = document.getElementById("Ter").checked
+                let qua = document.getElementById("Qua").checked
+                let qui = document.getElementById("Qui").checked
+                let sex = document.getElementById("Sex").checked
+                let sab = document.getElementById("Sab").checked
+                let alu = document.getElementById("alunosCbx").checked
+                let vol = document.getElementById("voluntariosCbx").checked
+                alert(primDia)
+                if(
+                    nome != "" &&
+                    inicio != "" &&
+                    fim != "" &&
+                    primDia != "" &&
+                    ultDia != "" &&
+                    (dom || seg || ter || qua || qui || sex || sab) &&
+                    (alu || vol)
+                ){
+                    let lastID = 0
+                    fetch('eventos.csv')
+                        .then(response => response.text()) // Parse the file content as text
+                        .then(csvData => {
+                        const rows = csvData.split('\n')
+                        console.log(rows)
+                        const lastRow =  rows[rows.length-2].split(",")
+                        console.log(lastRow)
+                        lastID = lastRow[0]
+                        alert(lastID)
+                
+                    });
+                    alert(lastID)
+                    //const fs = require('fs');
+
+                    // Define the new line you want to add
+                    let newLine = `${lastID+1},${'REC'}`;
+
+                    fetch('http://localhost:3000/add-line', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ newLine }),
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            alert(data); // Notify user of success
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to add the new line.');
+                        });
+
+                    newLine = `${lastID+1},${inicio},${fim},${primDia},${ultDia},${dom},${seg},${ter},${qua},${qui},${sex},${sab},${alu},${vol}`
+                    
+                    fetch('http://localhost:3000/add-line-recorrente', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ newLine }),
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            alert(data); // Notify user of success
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to add the new line.');
+                        });
+                    
+                        location.replace("https://eduardotribst.github.io/MMH-ControleAlunos/pagteste.html")
+                }
+                else{
+                    alert("preencha todos os campos corretamente")
+                }
+                
+                
+            } 
         }
     </script>
 </body>
