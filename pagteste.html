@@ -4,6 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* .evento{
+            border: 10px solid black;
+            width: 50%;
+            display: flex;
+            margin-bottom: 30px;
+            
+        }
+
+        #Eventos{
+            width: 90%;
+            margin: auto;
+            align-items: center;
+            justify-content: center;
+        } */
+         /* CSS to style the page */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center everything horizontally */
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light background for contrast */
+        }
+
+        /* Style for the Eventos container */
+        #Eventos {
+            display: flex;
+            flex-direction: column; /* Stack child elements vertically */
+            align-items: center; /* Center children horizontally */
+            width: 100%; /* Full width of the page */
+            margin-top: 20px;
+            gap: 15px; /* Space between each evento */
+            
+            padding: 10px; /* Add some spacing inside the container */
+            box-sizing: border-box; /* Ensure padding doesn't increase size */
+            background-color: #ffffff; /* White background */
+        }
+
+        /* Style for each individual evento */
+        .evento {
+            width: 80%; /* Adjust to control size of each evento */
+            max-width: 600px; /* Prevent them from getting too wide */
+            background-color: #eaeaea; /* Light gray background */
+            border: 2px solid #ccc; /* Border around each evento */
+            border-radius: 8px; /* Rounded corners */
+            padding: 10px; /* Inner spacing */
+            text-align: center; /* Center the content inside */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        }
+
+    </style>
 </head>
 <body>
 
@@ -23,14 +76,52 @@
 
 
                     
-                    for (let i = 0; i < rows.length; i++) {
+                    for (let i = 1; i < rows.length; i++) {
                         const row = rows[i].split(',');
-                        let tableRow = '<div>';
-                        row.forEach(cell => {
-                            tableRow += `<h1>${cell.trim()}</h1>`;
-                        });
-                        tableRow += '</div>';
-                        document.getElementById("Eventos").innerHTML += tableRow;
+                        
+                        let backgroundColor = (row[1] && row[1].trim() === "REC") ? 'blue' : 'red';
+
+                        var tableRow = `<div class="evento" style="background-color: ${backgroundColor};">`;
+                        
+                        if (backgroundColor == 'red'){
+                            fetch('eventosUnicos.csv')
+                                .then(resposta => resposta.text())
+                                .then(csvOutput => {
+                                    const Urows = csvOutput.split("\n");
+                                    Urows.forEach(UrowCount => {
+                                        let Urow = UrowCount.split(",")
+                                        if (Urow[0] == row[0]){
+                                            tableRow += `<h1>${Urow[0]}</h1>`
+                                            tableRow += `<h2>${Urow[1]}</h2>`
+                                        } 
+                                    });
+
+                                })
+                        }
+                        else if(backgroundColor == "blue"){
+                            fetch('eventosRecorrentes.csv')
+                                .then(resposta => resposta.text())
+                                .then(csvOutput => {
+                                    const Rrows = csvOutput.split("\n");
+                                    Rrows.forEach(RrowCount => {
+                                        
+                                        let Rrow = RrowCount.split(",")
+                                        console.log(Rrow[0])
+                                        console.log(row[0])
+                                        console.log(Rrow[0] === row[0])
+                                        if (Rrow[0] === row[0]){
+                                            tableRow += `<h1>${Rrow[0]}</h1>`
+                                            tableRow += `<h2>${Rrow[1]}</h2>`
+                                            tableRow += '</div>';
+                                            document.getElementById("Eventos").innerHTML += tableRow;
+                                            console.log(tableRow)
+                                        } 
+                                    });
+
+                                })
+                        }
+                        //tableRow += '</div>';
+                        //document.getElementById("Eventos").innerHTML += tableRow;
                     }
                 })
                 .catch(error => {
