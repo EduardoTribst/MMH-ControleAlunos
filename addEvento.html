@@ -147,7 +147,7 @@
                 let sab = document.getElementById("Sab").checked
                 let alu = document.getElementById("alunosCbx").checked
                 let vol = document.getElementById("voluntariosCbx").checked
-                alert(primDia)
+                
                 if(
                     nome != "" &&
                     inicio != "" &&
@@ -166,10 +166,10 @@
                         const lastRow =  rows[rows.length-2].split(",")
                         console.log(lastRow)
                         lastID = lastRow[0]
-                        alert(lastID)
+                        
                 
                     });
-                    alert(lastID)
+                    
                     //const fs = require('fs');
 
                     // Define the new line you want to add
@@ -191,7 +191,7 @@
                             alert('Failed to add the new line.');
                         });
 
-                    newLine = `${lastID+1},${inicio},${fim},${primDia},${ultDia},${dom},${seg},${ter},${qua},${qui},${sex},${sab},${alu},${vol}`
+                    newLine = `${lastID+1},${nome},${inicio},${fim},${primDia},${ultDia},${dom},${seg},${ter},${qua},${qui},${sex},${sab},${alu},${vol}`
                     
                     fetch('http://localhost:3000/add-line-recorrente', {
                         method: 'POST',
@@ -211,6 +211,76 @@
                     
                         location.replace("https://eduardotribst.github.io/MMH-ControleAlunos/pagteste.html")
                 }
+                else if (document.getElementById("RadioNao").checked){
+
+                    let nome = document.getElementById("NomeEvento").value
+                    let inicio = document.getElementById("inicio").value
+                    let fim = document.getElementById("fim").value
+                    let dia = document.getElementById("Dia").value
+                    let alu = document.getElementById("alunosCbx").checked
+                    let vol = document.getElementById("voluntariosCbx").checked
+                    
+                    if(
+                        nome != "" &&
+                        inicio != "" &&
+                        fim != "" &&
+                        dia != "" &&
+                        (alu || vol)
+                    ){
+                        let lastID = 0
+                        fetch('eventos.csv')
+                            .then(response => response.text()) // Parse the file content as text
+                            .then(csvData => {
+                            const rows = csvData.split('\n')
+                            console.log(rows)
+                            const lastRow =  rows[rows.length-2].split(",")
+                            console.log(lastRow)
+                            lastID = lastRow[0]
+                            
+                    
+                        });
+                        
+                        //const fs = require('fs');
+
+                        // Define the new line you want to add
+                        let newLine = `${lastID+1},${'Uni'}`;
+
+                        fetch('http://localhost:3000/add-line', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ newLine }),
+                        })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data); // Notify user of success
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to add the new line.');
+                            });
+
+                        newLine = `${lastID+1},${nome},${inicio},${fim},${dia},${alu},${vol}`
+                        
+                        fetch('http://localhost:3000/add-line-recorrente', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ newLine }),
+                        })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data); // Notify user of success
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to add the new line.');
+                            });
+                        
+                            location.replace("https://eduardotribst.github.io/MMH-ControleAlunos/pagteste.html")
+                }}
                 else{
                     alert("preencha todos os campos corretamente")
                 }
