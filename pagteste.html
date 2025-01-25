@@ -59,77 +59,59 @@
     </style>
 </head>
 <body>
-
-    <div id="Eventos"></div>
     <button id="botaoEvento" onclick="mudaPag()">Cadastrar Evento</button>
+    <div id="Eventos"></div>
+    
 
     <script>
         function mudaPag(){
             location.replace("https://eduardotribst.github.io/MMH-ControleAlunos/addEvento.html")
         }
 
-        function preencheTabelaAlunos() {
-            fetch('eventos.csv') // Load the CSV file from the same folder
-                .then(response => response.text()) // Parse the file content as text
-                .then(csvData => {
-                    const rows = csvData.split('\n');
+        async function preencherTabelaAlunos() {
+            try {
+                const eventos = await fetchCSV('eventos.csv');
+                const eventosUnicos = await fetchCSV('eventosUnicos.csv');
+                const eventosRecorrentes = await fetchCSV('eventosRecorrentes.csv');
 
+                for (let i = 1; i < eventos.length; i++) {
+                    const row = eventos[i];
+                    if (!row || row.length < 2) continue;
 
-                    
-                    for (let i = 1; i < rows.length; i++) {
-                        const row = rows[i].split(',');
-                        
-                        let backgroundColor = (row[1] && row[1].trim() === "REC") ? 'blue' : 'red';
+                    let backgroundColor = (row[1].trim() === "REC") ? 'blue' : 'red';
+                    let content = '';
 
-                        var tableRow = `<div class="evento" style="background-color: ${backgroundColor};">`;
-                        
-                        if (backgroundColor == 'red'){
-                            fetch('eventosUnicos.csv')
-                                .then(resposta => resposta.text())
-                                .then(csvOutput => {
-                                    const Urows = csvOutput.split("\n");
-                                    Urows.forEach(UrowCount => {
-                                        let Urow = UrowCount.split(",")
-                                        if (Urow[0] == row[0]){
-                                            tableRow += `<h1>${Urow[0]}</h1>`
-                                            tableRow += `<h2>${Urow[1]}</h2>`
-                                        } 
-                                    });
-
-                                })
+                    if (backgroundColor === 'red') {
+                        const match = eventosUnicos.find(u => u[0] === row[0]);
+                        if (match) {
+                            content += `<h1>${match[0]}</h1>`;
+                            content += `<h2>${match[1]}</h2>`;
                         }
-                        else if(backgroundColor == "blue"){
-                            fetch('eventosRecorrentes.csv')
-                                .then(resposta => resposta.text())
-                                .then(csvOutput => {
-                                    const Rrows = csvOutput.split("\n");
-                                    Rrows.forEach(RrowCount => {
-                                        
-                                        let Rrow = RrowCount.split(",")
-                                        console.log(Rrow[0])
-                                        console.log(row[0])
-                                        console.log(Rrow[0] === row[0])
-                                        if (Rrow[0] === row[0]){
-                                            tableRow += `<h1>${Rrow[0]}</h1>`
-                                            tableRow += `<h2>${Rrow[1]}</h2>`
-                                            tableRow += '</div>';
-                                            document.getElementById("Eventos").innerHTML += tableRow;
-                                            console.log(tableRow)
-                                        } 
-                                    });
-
-                                })
+                    } else if (backgroundColor === 'blue') {
+                        const match = eventosRecorrentes.find(r => r[0] === row[0]);
+                        if (match) {
+                            content += `<h1>${match[0]}</h1>`;
+                            content += `<h2>${match[1]}</h2>`;
                         }
-                        //tableRow += '</div>';
-                        //document.getElementById("Eventos").innerHTML += tableRow;
                     }
-                })
-                .catch(error => {
-                    console.error("Error reading the file:", error);
-                });
+
+                    if (content) {
+                        const eventoDiv = `<div class="evento" style="background-color: ${backgroundColor};">${content}</div>`;
+                        document.getElementById("Eventos").innerHTML += eventoDiv;
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching or processing data:", error);
+            }
         }
 
-        preencheTabelaAlunos()
+        async function fetchCSV(url) {
+            const response = await fetch(url);
+            const text = await response.text();
+            return text.split('\n').map(row => row.split(','));
+        }
+
+        preencherTabelaAlunos()
     </script>
 
 </body>
