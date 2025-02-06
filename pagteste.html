@@ -80,23 +80,26 @@
 
                     let backgroundColor = (row[1].trim() === "REC") ? 'blue' : 'red';
                     let content = '';
+                    let id = -1
 
                     if (backgroundColor === 'red') {
                         const match = eventosUnicos.find(u => u[0] === row[0]);
                         if (match) {
+                            id = match[0]
                             content += `<h1>${match[0]}</h1>`;
                             content += `<h2>${match[1]}</h2>`;
                         }
                     } else if (backgroundColor === 'blue') {
                         const match = eventosRecorrentes.find(r => r[0] === row[0]);
                         if (match) {
+                            id = match[0]
                             content += `<h1>${match[0]}</h1>`;
                             content += `<h2>${match[1]}</h2>`;
                         }
                     }
 
                     if (content) {
-                        const eventoDiv = `<div class="evento" style="background-color: ${backgroundColor};">${content}</div>`;
+                        const eventoDiv = `<div onclick="mudarPagina(${id})" class="evento" style="background-color: ${backgroundColor};">${content}</div>`;
                         document.getElementById("Eventos").innerHTML += eventoDiv;
                     }
                 }
@@ -109,6 +112,26 @@
             const response = await fetch(url);
             const text = await response.text();
             return text.split('\n').map(row => row.split(','));
+        }
+
+        async function mudarPagina(id){
+            alert("ivnfi")
+            localStorage.setItem("idEvento", id)
+            const eventos = await fetchCSV("eventos.csv")
+            for (let i = 1; i < eventos.length; i++) {
+                
+                const row = eventos[i];
+                
+                if(row[0].trim() === String(id)){
+                    if (row[1].trim() === "REC"){
+                        location.replace("https://eduardotribst.github.io/MMH-ControleAlunos/datasDoEvento.html")
+                    }
+                    else{
+                        location.replace("https://eduardotribst.github.io/MMH-ControleAlunos/pagteste.html")
+                    }
+                }
+            }
+            //location.replace("")
         }
 
         preencherTabelaAlunos()
