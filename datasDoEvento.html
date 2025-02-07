@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+
+    <script>
+        const idEvento = localStorage.getItem("idEvento")
+       
+        async function fetchCSV(url) {
+            const response = await fetch(url);
+            const text = await response.text();
+            return text.split('\n').map(row => row.split(','));
+        }
+        
+        async function faz(){
+            const evento = await fetchCSV("eventosRecorrentes.csv")
+            
+            for (let i = 0; i<evento.length; i++){
+                let row = evento[i]
+                
+                if(row[0] === "2"){
+                    const row = evento[i];
+                    const data = row[4]
+                    const ultData = row[5]
+                    const dom = row[6]
+                    const seg = row[7]
+                    const ter = row[8]
+                    const qua = row[9]
+                    const qui = row[10]
+                    const sex = row[11]
+                    const sab = row[12]
+
+                    const diasSemana = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
+                    const bigDiv = document.getElementById("big");
+
+                    let currentDate = new Date(data); // Começa da data inicial
+
+                    while (currentDate <= ultData) {
+                        const dayIndex = currentDate.getDay(); // Obtém o índice do dia da semana (0 = domingo, 6 = sábado)
+
+                        if (row[6 + dayIndex]) { // Verifica se o dia da semana está marcado como true
+                            const newDiv = document.createElement("div");
+                            newDiv.textContent = `${currentDate.toISOString().split('T')[0]} - ${diasSemana[dayIndex]}`; // Data e nome do dia
+                            newDiv.classList.add("dia-semana");
+                            bigDiv.appendChild(newDiv);
+                        }
+
+                        currentDate.setDate(currentDate.getDate() + 1); // Avança para o próximo dia
+                    }
+
+                
+                }
+                
+            }
+        }
+        
+        faz()
+
+    </script>
+</body>
+</html>
+
